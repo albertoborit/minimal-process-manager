@@ -1,6 +1,6 @@
 {
     "name": "minimal-process-manager",
-    "version": "1.0.2",
+    "version": "1.1.2",
     "description": "A minimalist process manager",
     "main": "lib/index.js",
     "bin": {

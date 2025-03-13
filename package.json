@@ -1,19 +1,12 @@
 {
     "name": "minimal-process-manager",
-    "version": "1.0.2",
+    "version": "1.1.2",
     "description": "A minimalist process manager",
-    "main": "lib/index.js",
+    "main": "index.js",
     "bin": {
-        "minimal-process-manager": "lib/index.js"
+        "minimal-process-manager": "index.js"
     },
-    "types": "lib/index.d.ts",
-    "files": [
-        "lib/**/*"
-    ],
-    "scripts": {
-        "start": "tsc --watch",
-        "build": "tsc"
-    },
+    "scripts": { },
     "dependencies": {
         "commander": "^12.1.0"
     },
@@ -23,8 +16,5 @@
         "monitoring",
         "resources"
     ],
-    "license": "Apache-2.0",
-    "devDependencies": {
-        "@types/node": "^22.4.0"
-    }
+    "license": "Apache-2.0"
 }

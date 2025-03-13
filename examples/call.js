@@ -1,35 +1,9 @@
 const http = require('http');
 
 function checkHealth() {
-    const options = {
-        hostname: 'localhost',
-        port: 3000,
-        path: '/health',
-        method: 'GET',
-    };
-
-    const req = http.request(options, (res) => {
-        let data = '';
-
-        // Acumular los datos recibidos
-        res.on('data', (chunk) => {
-            data += chunk;
-        });
-
-        // Manejar el final de la respuesta
-        res.on('end', () => {
-            console.log('Response:', data);
-        });
-    });
-
-    // Manejar errores en la solicitud
-    req.on('error', (e) => {
-        console.error(`Problem with request: ${e.message}`);
-    });
-
-    // Finalizar la solicitud
-    req.end();
+    http.get('http://localhost:3000/health', (res) => {
+        res.setEncoding('utf8');
+        res.on('data', console.log);
+    }).on('error', (e) => console.error(`Request error: ${e.message}`));
 }
-
-// Llamar a la función
-checkHealth();
+setInterval(checkHealth, 5000);

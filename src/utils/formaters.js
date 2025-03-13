@@ -1,4 +1,4 @@
-export const formatBytes = (bytes:number, decimals = 2)=> {
+const formatBytes = (bytes, decimals = 2)=> {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
@@ -7,6 +7,11 @@ export const formatBytes = (bytes:number, decimals = 2)=> {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
   
-export const formatPercentage = (bytes:string) => {
+const formatPercentage = (bytes) => {
     return bytes.toString() + ' ' + '%';
+}
+
+module.exports = {
+  formatBytes,
+  formatPercentage
 }

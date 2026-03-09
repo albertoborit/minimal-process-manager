@@ -2,28 +2,43 @@
 
 ## Description
 
-A simple and lightweight process manager for Node.js applications. This tool allows you to start, manage, and monitor Node.js processes easily. It supports running processes in cluster mode to utilize multiple CPU cores effectively and provides basic memory usage logging to help you keep track of your application's resource consumption.
+A simple and lightweight process manager for Node.js applications. Start, manage, and monitor Node.js processes with cluster mode for multiple CPU cores and optional memory usage logging.
+
+## Installation
+
+```bash
+npm install -g minimal-process-manager
+```
 
 ## Usage
 
-To start a Node.js script using the Minimalist Resources Manager, use the following command:
-```
+Start a script (default: up to 5 restarts on crash):
+
+```bash
 minimal-process-manager start script.js
 ```
 
-To run a script named example.js in cluster mode, you would use:
-```
+Run in cluster mode (one worker per CPU):
+
+```bash
 minimal-process-manager start example.js --cluster
 ```
 
-To run a script named example.js in reload  mode, you would use:
-```
+Run with unlimited restarts on crash:
+
+```bash
 minimal-process-manager start example.js --unlimited
 ```
 
-To install the Minimalist Resources Manager globally, use:
+## Options
 
-```
-npm install -g minimal-process-manager
-```
+| Option       | Description                    |
+| ------------ | ------------------------------ |
+| `--cluster`  | Run one process per CPU core   |
+| `--unlimited`| Restart on crash indefinitely  |
+
+## Behavior
+
+- **Graceful shutdown**: SIGINT (Ctrl+C) and SIGTERM stop the managed process and exit cleanly.
+- **Memory logging**: The manager prints RSS, heap usage, and external memory every second. For high-heap GC hints, run Node with `--expose-gc` (e.g. `node --expose-gc node_modules/.bin/minimal-process-manager start app.js`).
 

@@ -1,34 +1,59 @@
 const path = require("path");
+const fs = require("fs");
 const { spawn } = require("child_process");
 
 const startProcess = (script, maxRetries, unlimited = false, manager) => {
-    const scriptPath = path.resolve(script);
-    let retries = 0;
+  const scriptPath = path.resolve(script);
 
-    const launch = () => {
-        const proc = spawn('node', [scriptPath], { stdio: ['ignore', 'pipe', 'pipe'] });
-        manager();
+  if (!fs.existsSync(scriptPath)) {
+    console.error(`Error: Script not found: ${scriptPath}`);
+    process.exit(1);
+  }
 
-        proc.on('error', (err) => {
-            console.error(`Error in process: ${err.message}`);
-        });
+  let retries = 0;
+  let currentProcess = null;
+  let stopMemoryManager = null;
 
-        proc.on('exit', (code) => {
-            console.log(`\nProcess ${proc.pid} exited with code ${code}`);
+  const launch = () => {
+    currentProcess = spawn("node", [scriptPath], {
+      stdio: "inherit",
+    });
+    if (manager) {
+      stopMemoryManager = manager();
+    }
 
-            if (unlimited || retries < maxRetries) {
-                retries++;
-                console.log(`Restarting process... Attempt ${retries}`);
-                launch();
-            } else {
-                console.error("Max retries reached. Exiting.");
-            }
-        });
+    currentProcess.on("error", (err) => {
+      console.error(`Error in process: ${err.message}`);
+    });
 
-        return proc;
-    };
+    currentProcess.on("exit", (code) => {
+      if (stopMemoryManager) stopMemoryManager();
+      console.log(`\nProcess ${currentProcess.pid} exited with code ${code}`);
+      currentProcess = null;
 
-    launch();
+      if (unlimited || retries < maxRetries) {
+        retries++;
+        console.log(`Restarting process... Attempt ${retries}`);
+        launch();
+      } else {
+        console.error("Max retries reached. Exiting.");
+        process.exit(code !== 0 ? code : 1);
+      }
+    });
+
+    return currentProcess;
+  };
+
+  launch();
+
+  return {
+    stop() {
+      if (currentProcess && currentProcess.kill) {
+        currentProcess.kill("SIGTERM");
+      }
+      if (stopMemoryManager) stopMemoryManager();
+    },
+  };
 };
 
 module.exports = { startProcess };

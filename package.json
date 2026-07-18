@@ -1,24 +1,43 @@
 {
-    "name": "minimal-process-manager",
-    "version": "1.1.4",
-    "description": "A minimalist process manager",
-    "main": "src/index.js",
-    "bin": {
-        "minimal-process-manager": "src/index.js"
-    },
-    "scripts": {
-        "start:example": "node src/index.js start examples/index.js",
-        "start:cluster": "node src/index.js start examples/index.js --cluster",
-        "start:unlimited": "node src/index.js start examples/index.js --unlimited"
-    },
-    "dependencies": {
-        "commander": "^12.1.0"
-    },
-    "keywords": [
-        "process",
-        "node",
-        "monitoring",
-        "resources"
-    ],
-    "license": "Apache-2.0"
+  "name": "minimal-process-manager",
+  "version": "1.2.0",
+  "description": "A lightweight Node.js process manager: restart on crash, cluster mode, watch/cron, env, logs, and a PM2-style process list",
+  "main": "src/index.js",
+  "bin": {
+    "minimal-process-manager": "bin/minimal-process-manager",
+    "mpm": "bin/minimal-process-manager"
+  },
+  "files": [
+    "bin",
+    "src",
+    "LICENCE",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/unit/*.test.js test/cli/*.test.js",
+    "test:unit": "node --test test/unit/*.test.js",
+    "test:cli": "node --test test/cli/*.test.js",
+    "start:example": "node src/index.js start examples/index.js",
+    "start:cluster": "node src/index.js start examples/index.js --cluster",
+    "start:unlimited": "node src/index.js start examples/index.js --unlimited 1000"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "commander": "^12.1.0"
+  },
+  "keywords": [
+    "process-manager",
+    "process",
+    "cluster",
+    "restart",
+    "watch",
+    "cron",
+    "logs",
+    "monitoring",
+    "cli",
+    "node"
+  ],
+  "license": "Apache-2.0"
 }

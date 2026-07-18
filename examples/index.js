@@ -1,6 +1,10 @@
 const http = require('http');
 
-const PORT = 3000;
+const portArg = process.argv.indexOf('--port');
+const PORT =
+  portArg !== -1 && process.argv[portArg + 1]
+    ? parseInt(process.argv[portArg + 1], 10)
+    : 3000;
 let callCount = 0;
 
 const requestHandler = (req, res) => {

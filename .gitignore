@@ -1,2 +1,5 @@
 lib
 node_modules
+.minimal-process-manager
+.mpm-test
+.mpm-test-*
